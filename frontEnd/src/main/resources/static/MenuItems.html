@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 80px; /* Adjust as needed */
+        }
+       .navbar {
+            background-color: #00000008 !important;
+            backdrop-filter: blur(10px);
+        }
+ 
+        .navbar-brand {
+            font-weight: bold;
+            font-style: italic;
+            color: #0b0808;
+        }
+ 
+        .navbar-nav .nav-link {
+            color: #222325 !important;
+        }
+ 
+        .navbar-toggler {
+            border-color: #fff;
+        }
+ 
+        .btn-primary {
+background-color: #d4bbff; /* Adjusted button color */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+                        border-color: #3c4043; /* Adjusted border color */
+            
+        }
+        
+       
+
+        .btn-primary:hover {
+            background-color: #3c4043; /* Adjusted button color on hover */
+            border-color: #3c4043;
+        }
+        .container {
+            max-width: 800px; /* Center the content */
+        }
+        .button {
+            margin-top: 20px; /* Add space between the list and the button */
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">TiffinTime</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8080/MenuItems.html">Our Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <button class="btn btn-outline-primary me-2 border-0" type="button">Sign Up</button> 
+                <button class="btn btn-primary border-0" type="button">Log In</button> 
+      
+            </div>
+        </div>
+    </nav>
+<div class="container">
+    <h1 class="mt-5 mb-4">All Menu Items List Here</h1>
+    <ul id="itemList" class="list-group">
+    </ul>
+    <button class="btn btn-primary mt-3" onclick="window.location.href='index.html'">Back</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetchItems();
+});
+
+function fetchItems() {
+    fetch('http://localhost:8082/item')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(items => {
+            const itemList = document.getElementById('itemList');
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "list-group-item";
+                li.textContent = `${item.name} - ${item.price} - ${item.description}`;
+                itemList.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+</script>
+</body>
+</html>
